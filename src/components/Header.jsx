@@ -4,18 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faHome, faMobileAlt, faLaptop, faGamepad, faLightbulb, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { useShopContext } from '../context/ShopContext';
 import * as productData from '../data/sampleProducts';
-
 const Header = () => {
   const { wishlist } = useShopContext();
-  
-  // Get the subcategories
   const categories = [
     { id: 'smartphones', name: 'Smartphones', icon: faMobileAlt },
     { id: 'laptops', name: 'Laptops', icon: faLaptop },
     { id: 'gaming', name: 'Gaming', icon: faGamepad },
     { id: 'household', name: 'Smart Home', icon: faLightbulb }
   ];
-  
   return (
     <header className="site-header">
       <div className="header-container">
@@ -25,7 +21,6 @@ const Header = () => {
             ElectroVerse
           </Link>
         </div>
-        
         <nav className="main-nav">
           <ul className="nav-links">
             <li>
@@ -85,5 +80,4 @@ const Header = () => {
     </header>
   );
 };
-
 export default Header; 

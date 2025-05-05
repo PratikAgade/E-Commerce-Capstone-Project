@@ -6,7 +6,6 @@ import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import ProductGrid from '../components/ProductGrid';
 import { useShopContext } from '../context/ShopContext';
 import * as productDataService from '../data/sampleProducts';
-
 const ProductPage = () => {
   const { id } = useParams();
   const { 
@@ -16,20 +15,14 @@ const ProductPage = () => {
     getRelatedProducts,
     addToRecentlyViewed
   } = useShopContext();
-  
-  // Simple state with no nesting
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // Load data once on mount
   useEffect(() => {
     let mounted = true;
-    
     const fetchData = async () => {
       try {
-        // Validate ID first
         if (!id) {
           if (mounted) {
             setError("No product ID provided");
@@ -37,18 +30,11 @@ const ProductPage = () => {
           }
           return;
         }
-        
-        // Fetch product data
         const productData = await productDataService.getProductById(id);
-        
-        // Only update state if component is still mounted
         if (!mounted) return;
-        
         if (productData) {
           setProduct(productData);
           addToRecentlyViewed(id);
-          
-          // Fetch related products
           try {
             const related = await getRelatedProducts(id);
             if (mounted) {
@@ -56,8 +42,6 @@ const ProductPage = () => {
             }
           } catch (relatedError) {
             console.error("Failed to load related products:", relatedError);
-            // We don't set error state here, just log it
-            // This way the product still displays even if related products fail
           }
         } else {
           setError("Product not found");
@@ -72,40 +56,28 @@ const ProductPage = () => {
         }
       }
     };
-    
     fetchData();
-    
-    // Cleanup function to prevent updates on unmounted component
     return () => {
       mounted = false;
     };
   }, [id, addToRecentlyViewed, getRelatedProducts]);
-  
-  // Format price for INR
   const getFormattedPrice = () => {
     if (!product || typeof product.price !== 'number') return '';
-    
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
       currency: 'INR',
       maximumFractionDigits: 0
     }).format(product.price);
   };
-  
-  // Buy button handler
   const handleBuyNow = () => {
     if (!product) return;
     addToPurchaseHistory(product.id);
     alert(`You've purchased: ${product.title}`);
   };
-  
-  // Wishlist toggle handler
   const handleWishlistToggle = () => {
     if (!product) return;
     toggleWishlist(product.id);
   };
-
-  // Show loading state
   if (loading) {
     return (
       <div className="product-page loading">
@@ -116,8 +88,6 @@ const ProductPage = () => {
       </div>
     );
   }
-
-  // Show error state
   if (error) {
     return (
       <div className="product-page error">
@@ -131,8 +101,6 @@ const ProductPage = () => {
       </div>
     );
   }
-
-  // Show product not found state
   if (!product) {
     return (
       <div className="product-page error">
@@ -146,8 +114,6 @@ const ProductPage = () => {
       </div>
     );
   }
-
-  // Main product display
   return (
     <div className="product-page">
       <div className="product-details">
@@ -159,30 +125,24 @@ const ProductPage = () => {
             loading="eager"
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = 'https://via.placeholder.com/400x400?text=Image+Not+Available';
+              e.target.src = 'https:
             }}
           />
         </div>
-        
         <div className="product-info">
           <h1 className="product-title">{product.title}</h1>
-          
           {product.rating && (
             <div className="product-rating">
               <span className="stars" style={{ '--rating': product.rating }}>★★★★★</span>
               <span className="review-count">({product.reviewCount} reviews)</span>
             </div>
           )}
-          
           <div className="product-price">{getFormattedPrice()}</div>
-          
           <p className="product-description">{product.description}</p>
-          
           <div className="product-actions">
             <button onClick={handleBuyNow} className="buy-now-button">
               Buy Now
             </button>
-            
             <button 
               onClick={handleWishlistToggle} 
               className={`wishlist-toggle-button ${isInWishlist(product.id) ? 'in-wishlist' : ''}`}
@@ -194,7 +154,6 @@ const ProductPage = () => {
               <span>{isInWishlist(product.id) ? 'Remove from Wishlist' : 'Add to Wishlist'}</span>
             </button>
           </div>
-          
           {product.tags && product.tags.length > 0 && (
             <div className="product-tags">
               {product.tags.map(tag => (
@@ -204,7 +163,6 @@ const ProductPage = () => {
           )}
         </div>
       </div>
-      
       {relatedProducts.length > 0 && (
         <div className="related-products-section">
           <ProductGrid 
@@ -217,5 +175,4 @@ const ProductPage = () => {
     </div>
   );
 };
-
 export default ProductPage; 

@@ -4,37 +4,27 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { useShopContext } from '../context/ShopContext';
-
-// Using React.memo to prevent unnecessary re-renders
 const ProductCard = memo(({ product, showAddToWishlist = true }) => {
   const { isInWishlist, toggleWishlist, addToRecentlyViewed } = useShopContext();
-  
   if (!product || !product.id) {
-    return null; // Don't render anything if product is invalid
+    return null; 
   }
-  
-  // Pre-compute values to avoid recalculations during render
   const inWishlist = isInWishlist(product.id);
   const productId = product.id;
-  const imageUrl = product.imageUrl || 'https://via.placeholder.com/300x300?text=No+Image';
-  
-  // Format price with Indian Rupee currency
+  const imageUrl = product.imageUrl || 'https:
   const formattedPrice = new Intl.NumberFormat('en-IN', {
     style: 'currency',
     currency: 'INR',
     maximumFractionDigits: 0
   }).format(product.price);
-  
   const handleCardClick = () => {
     addToRecentlyViewed(productId);
   };
-  
   const handleWishlistToggle = (e) => {
     e.preventDefault();
     e.stopPropagation();
     toggleWishlist(productId);
   };
-
   return (
     <div className="product-card">
       <Link 
@@ -50,10 +40,9 @@ const ProductCard = memo(({ product, showAddToWishlist = true }) => {
             loading="lazy"
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = 'https://via.placeholder.com/300x300?text=Image+Not+Available';
+              e.target.src = 'https:
             }}
           />
-          
           {showAddToWishlist && (
             <button 
               className={`wishlist-button ${inWishlist ? 'in-wishlist' : ''}`}
@@ -67,11 +56,9 @@ const ProductCard = memo(({ product, showAddToWishlist = true }) => {
             </button>
           )}
         </div>
-        
         <div className="product-info">
           <h3 className="product-title">{product.title}</h3>
           <div className="product-price">{formattedPrice}</div>
-          
           {product.rating > 0 && (
             <div className="product-rating">
               <span className="stars" style={{ '--rating': product.rating }}>★★★★★</span>
@@ -83,8 +70,5 @@ const ProductCard = memo(({ product, showAddToWishlist = true }) => {
     </div>
   );
 });
-
-// Add display name for debugging
 ProductCard.displayName = 'ProductCard';
-
 export default ProductCard; 

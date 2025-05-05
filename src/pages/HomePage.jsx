@@ -4,8 +4,6 @@ import { useShopContext } from '../context/ShopContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import * as productData from '../data/sampleProducts';
-
-// Extract brands from tags
 const extractBrands = (products) => {
   const brandSet = new Set();
   products.forEach(product => {
@@ -19,14 +17,12 @@ const extractBrands = (products) => {
   });
   return Array.from(brandSet);
 };
-
 const HomePage = () => {
   const { 
     getRecentlyViewedProducts, 
     getRecommendations,
     searchProducts 
   } = useShopContext();
-
   const [recentProducts, setRecentProducts] = useState([]);
   const [recommendedProducts, setRecommendedProducts] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
@@ -38,48 +34,31 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  // Parse URL params on load
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const categoryParam = queryParams.get('category');
     const brandParam = queryParams.get('brand');
-    
     if (categoryParam) {
       setSelectedCategory(categoryParam);
     }
-    
     if (brandParam) {
       setSelectedBrand(brandParam);
     }
   }, []);
-
-  // Load initial data on mount
   useEffect(() => {
     const loadInitialData = async () => {
       try {
         setLoading(true);
-        
-        // Get all available subcategories
         const allCategories = await productData.getAllCategories();
         setCategories(allCategories);
-        
-        // Load electronics products
         const electronics = await productData.getElectronicsProducts();
         setElectronicsProducts(electronics);
-        
-        // Extract brands
         const brandList = extractBrands(electronics);
         setBrands(brandList);
-        
-        // Load recent products and recommendations
         const recentItems = await getRecentlyViewedProducts();
         setRecentProducts(recentItems);
-        
         const recommendations = await getRecommendations();
         setRecommendedProducts(recommendations);
-        
-        // Apply initial filters if needed
         if (selectedCategory !== 'all' || selectedBrand !== 'all') {
           filterProducts(selectedCategory, selectedBrand);
         }
@@ -89,30 +68,22 @@ const HomePage = () => {
         setLoading(false);
       }
     };
-    
     loadInitialData();
   }, [getRecentlyViewedProducts, getRecommendations]);
-  
-  // Filter products by category and brand
   const filterProducts = async (category, brand) => {
     try {
       setLoading(true);
       let filteredProducts;
-      
-      // First filter by category
       if (category === 'all') {
         filteredProducts = await productData.getElectronicsProducts();
       } else {
         filteredProducts = await productData.getProductsByCategory(category);
       }
-      
-      // Then filter by brand if needed
       if (brand !== 'all') {
         filteredProducts = filteredProducts.filter(product => 
           product.tags && product.tags.includes(brand.toLowerCase())
         );
       }
-      
       setElectronicsProducts(filteredProducts);
     } catch (error) {
       console.error('Error filtering products:', error);
@@ -120,13 +91,9 @@ const HomePage = () => {
       setLoading(false);
     }
   };
-  
-  // Filter by category
   const filterByCategory = async (category) => {
     setSelectedCategory(category);
     filterProducts(category, selectedBrand);
-    
-    // Update URL
     const url = new URL(window.location);
     if (category === 'all') {
       url.searchParams.delete('category');
@@ -135,13 +102,9 @@ const HomePage = () => {
     }
     window.history.pushState({}, '', url);
   };
-  
-  // Filter by brand
   const filterByBrand = async (brand) => {
     setSelectedBrand(brand);
     filterProducts(selectedCategory, brand);
-    
-    // Update URL
     const url = new URL(window.location);
     if (brand === 'all') {
       url.searchParams.delete('brand');
@@ -150,16 +113,11 @@ const HomePage = () => {
     }
     window.history.pushState({}, '', url);
   };
-  
-  // Handle search form submission
   const handleSearch = async (e) => {
     e.preventDefault();
-    
     if (!searchQuery.trim()) return;
-    
     try {
       setIsSearching(true);
-      
       const results = await searchProducts(searchQuery, selectedCategory !== 'all' ? selectedCategory : 'electronics');
       setSearchResults(results.searchResults);
     } catch (error) {
@@ -168,37 +126,28 @@ const HomePage = () => {
       setIsSearching(false);
     }
   };
-  
-  // Clear search results
   const clearSearch = () => {
     setSearchQuery('');
     setSearchResults([]);
   };
-  
-  // Get title based on filters
   const getTitle = () => {
     let title = '';
-    
     if (selectedBrand !== 'all') {
       title += `${selectedBrand.charAt(0).toUpperCase() + selectedBrand.slice(1)} `;
     }
-    
     if (selectedCategory === 'all') {
       title += 'Electronics';
     } else {
       title += selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1);
     }
-    
     return title;
   };
-  
   return (
     <div className="home-page">
       <section className="hero-section">
         <div className="hero-content">
           <h1>Discover amazing electronics</h1>
           <p>Browse our selection of electronics, add favorites to your wishlist, and get personalized recommendations</p>
-          
           <form onSubmit={handleSearch} className="search-form">
             <div className="search-input-container">
               <input
@@ -220,7 +169,6 @@ const HomePage = () => {
           </form>
         </div>
       </section>
-      
       <section className="category-filters">
         <div className="filter-buttons">
           <button 
@@ -229,7 +177,6 @@ const HomePage = () => {
           >
             All Electronics
           </button>
-          
           {categories.map(category => (
             <button 
               key={category}
@@ -241,7 +188,6 @@ const HomePage = () => {
           ))}
         </div>
       </section>
-      
       {brands.length > 0 && (
         <section className="brand-filters">
           <div className="brand-title">Filter by Brand:</div>
@@ -252,7 +198,6 @@ const HomePage = () => {
             >
               All Brands
             </button>
-            
             {brands.map(brand => (
               <button 
                 key={brand}
@@ -265,7 +210,6 @@ const HomePage = () => {
           </div>
         </section>
       )}
-      
       {loading ? (
         <div className="loading-state">
           <div className="loading-spinner"></div>
@@ -295,7 +239,6 @@ const HomePage = () => {
                   emptyMessage="No electronics products available in this category."
                 />
               </section>
-              
               {recommendedProducts.length > 0 && (
                 <section className="recommendations-section">
                   <ProductGrid 
@@ -305,7 +248,6 @@ const HomePage = () => {
                   />
                 </section>
               )}
-              
               {recentProducts.length > 0 && (
                 <section className="recently-viewed-section">
                   <ProductGrid 
@@ -322,5 +264,4 @@ const HomePage = () => {
     </div>
   );
 };
-
 export default HomePage; 

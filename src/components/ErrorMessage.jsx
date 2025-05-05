@@ -1,6 +1,5 @@
 import React from 'react';
 import '../styles/ErrorMessage.css';
-
 const ErrorMessage = ({ message = 'An error occurred. Please try again.' }) => {
   return (
     <div className="error-container">
@@ -10,5 +9,4 @@ const ErrorMessage = ({ message = 'An error occurred. Please try again.' }) => {
     </div>
   );
 };
-
 export default ErrorMessage; 

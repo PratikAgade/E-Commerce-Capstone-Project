@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-
 function SimpleApp() {
   return (
     <div className="app-container">
@@ -11,7 +10,6 @@ function SimpleApp() {
           </div>
         </div>
       </header>
-      
       <main className="main-content">
         <section className="hero-section">
           <div className="hero-content">
@@ -19,7 +17,6 @@ function SimpleApp() {
             <p>Add your favorites to your wishlist and get personalized recommendations</p>
           </div>
         </section>
-        
         <section className="product-grid-container">
           <h2 className="section-title">Featured Products</h2>
           <div className="product-grid">
@@ -27,7 +24,7 @@ function SimpleApp() {
               <div key={i} className="product-card">
                 <div className="product-image-container">
                   <img 
-                    src={`https://via.placeholder.com/200x300?text=Product+${i+1}`}
+                    src={`https:
                     alt={`Product ${i+1}`} 
                     className="product-image"
                   />
@@ -41,7 +38,6 @@ function SimpleApp() {
           </div>
         </section>
       </main>
-      
       <footer className="site-footer">
         <div className="footer-container">
           <div className="footer-section about">
@@ -49,7 +45,6 @@ function SimpleApp() {
             <p>Your one-stop shop for electronics</p>
           </div>
         </div>
-        
         <div className="footer-bottom">
           <p>&copy; {new Date().getFullYear()} ElectroVerse. All rights reserved.</p>
         </div>
@@ -57,5 +52,4 @@ function SimpleApp() {
     </div>
   );
 }
-
 export default SimpleApp; 

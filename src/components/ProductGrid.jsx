@@ -1,6 +1,5 @@
 import React from 'react';
 import ProductCard from './ProductCard';
-
 const ProductGrid = ({ products, title, emptyMessage = "No products to display" }) => {
   if (!products || products.length === 0) {
     return (
@@ -12,7 +11,6 @@ const ProductGrid = ({ products, title, emptyMessage = "No products to display" 
       </div>
     );
   }
-
   return (
     <div className="product-grid-container">
       {title && <h2 className="section-title">{title}</h2>}
@@ -24,5 +22,4 @@ const ProductGrid = ({ products, title, emptyMessage = "No products to display" 
     </div>
   );
 };
-
 export default ProductGrid; 

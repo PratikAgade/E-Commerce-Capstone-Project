@@ -8,7 +8,6 @@ import WishlistPage from './pages/WishlistPage';
 import SharedWishlistPage from './pages/SharedWishlistPage';
 import RecommendationsPage from './pages/RecommendationsPage';
 import './App.css';
-
 function App() {
   return (
     <ShopProvider>
@@ -26,5 +25,4 @@ function App() {
     </ShopProvider>
   );
 }
-
 export default App;

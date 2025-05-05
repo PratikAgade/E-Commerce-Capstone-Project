@@ -1,9 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  
   return (
     <footer className="site-footer">
       <div className="footer-container">
@@ -15,7 +13,6 @@ const Footer = () => {
             and other top brands. Save your favorites to your wishlist!
           </p>
         </div>
-        
         <div className="footer-section links">
           <h3>Electronics</h3>
           <ul>
@@ -25,7 +22,6 @@ const Footer = () => {
             <li><Link to="/?category=household">Smart Home</Link></li>
           </ul>
         </div>
-        
         <div className="footer-section brands">
           <h3>Top Brands</h3>
           <ul>
@@ -35,7 +31,6 @@ const Footer = () => {
             <li><Link to="/?brand=microsoft">Microsoft</Link></li>
           </ul>
         </div>
-        
         <div className="footer-section legal">
           <h3>Legal</h3>
           <ul>
@@ -44,7 +39,6 @@ const Footer = () => {
           </ul>
         </div>
       </div>
-      
       <div className="footer-bottom">
         <p>&copy; {currentYear} ElectroVerse. All rights reserved.</p>
         <p className="demo-disclaimer">
@@ -55,5 +49,4 @@ const Footer = () => {
     </footer>
   );
 };
-
 export default Footer; 

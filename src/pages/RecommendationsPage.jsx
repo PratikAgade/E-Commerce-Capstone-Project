@@ -4,7 +4,6 @@ import ProductGrid from '../components/ProductGrid';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
 import '../styles/RecommendationsPage.css';
-
 const RecommendationsPage = () => {
   const { 
     getRecommendations, 
@@ -12,25 +11,18 @@ const RecommendationsPage = () => {
     updateUserPreferences,
     userPreferences 
   } = useShopContext();
-  
   const [recommendedProducts, setRecommendedProducts] = useState([]);
   const [availableBrands, setAvailableBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  // Local state for current filters
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedPriceRanges, setSelectedPriceRanges] = useState([]);
   const [recommendationLimit, setRecommendationLimit] = useState(8);
-  
-  // Price range options
   const priceRangeOptions = [
     { value: 'low', label: 'Budget' },
     { value: 'medium', label: 'Mid-Range' },
     { value: 'high', label: 'Premium' }
   ];
-
-  // Load brands on component mount
   useEffect(() => {
     const loadBrands = async () => {
       try {
@@ -41,31 +33,24 @@ const RecommendationsPage = () => {
         setError('Failed to load brand options');
       }
     };
-    
     loadBrands();
   }, [getAllBrands]);
-  
-  // Initialize selected filters from user preferences
   useEffect(() => {
     if (userPreferences) {
       setSelectedBrands(userPreferences.preferredBrands || []);
       setSelectedPriceRanges(userPreferences.preferredPriceRanges || []);
     }
   }, [userPreferences]);
-
-  // Load recommended products based on filters
   useEffect(() => {
     const loadRecommendedProducts = async () => {
       setLoading(true);
       setError(null);
-
       try {
         const recommendations = await getRecommendations({
           brands: selectedBrands,
           priceRange: selectedPriceRanges,
           limit: recommendationLimit
         });
-        
         setRecommendedProducts(recommendations);
       } catch (error) {
         console.error('Error loading recommendations:', error);
@@ -74,41 +59,26 @@ const RecommendationsPage = () => {
         setLoading(false);
       }
     };
-
     loadRecommendedProducts();
   }, [getRecommendations, selectedBrands, selectedPriceRanges, recommendationLimit]);
-
-  // Handler for brand selection change
   const handleBrandChange = (brand) => {
     setSelectedBrands(prevSelected => {
-      // If already selected, remove it; otherwise add it
       const newSelection = prevSelected.includes(brand)
         ? prevSelected.filter(b => b !== brand)
         : [...prevSelected, brand];
-      
-      // Update user preferences
       updateUserPreferences({ preferredBrands: newSelection });
-      
       return newSelection;
     });
   };
-
-  // Handler for price range selection change
   const handlePriceRangeChange = (range) => {
     setSelectedPriceRanges(prevSelected => {
-      // If already selected, remove it; otherwise add it
       const newSelection = prevSelected.includes(range)
         ? prevSelected.filter(r => r !== range)
         : [...prevSelected, range];
-      
-      // Update user preferences
       updateUserPreferences({ preferredPriceRanges: newSelection });
-      
       return newSelection;
     });
   };
-
-  // Reset all filters
   const handleResetFilters = () => {
     setSelectedBrands([]);
     setSelectedPriceRanges([]);
@@ -117,14 +87,12 @@ const RecommendationsPage = () => {
       preferredPriceRanges: [] 
     });
   };
-
   return (
     <div className="recommendations-page">
       <div className="page-header">
         <h1>Personalized Recommendations</h1>
         <p>Discover products tailored to your preferences</p>
       </div>
-      
       <div className="recommendations-container">
         <div className="filter-sidebar">
           <div className="filter-section">
@@ -137,7 +105,6 @@ const RecommendationsPage = () => {
               Reset All Filters
             </button>
           </div>
-          
           <div className="filter-section">
             <h3>Price Range</h3>
             <div className="filter-options">
@@ -152,7 +119,6 @@ const RecommendationsPage = () => {
               ))}
             </div>
           </div>
-
           <div className="filter-section">
             <h3>Brands</h3>
             <div className="filter-options">
@@ -167,7 +133,6 @@ const RecommendationsPage = () => {
               ))}
             </div>
           </div>
-          
           <div className="filter-section">
             <h3>Show Items</h3>
             <select 
@@ -182,7 +147,6 @@ const RecommendationsPage = () => {
             </select>
           </div>
         </div>
-        
         <div className="recommendations-content">
           {loading ? (
             <Loading message="Finding the perfect products for you..." />
@@ -211,5 +175,4 @@ const RecommendationsPage = () => {
     </div>
   );
 };
-
 export default RecommendationsPage; 

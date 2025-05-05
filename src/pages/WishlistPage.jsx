@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import ProductGrid from '../components/ProductGrid';
 import WishlistShare from '../components/WishlistShare';
 import { useShopContext } from '../context/ShopContext';
-
 const WishlistPage = () => {
   const { getWishlistProducts } = useShopContext();
   const [wishlistProducts, setWishlistProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const loadWishlist = async () => {
       try {
@@ -20,17 +18,14 @@ const WishlistPage = () => {
         setLoading(false);
       }
     };
-    
     loadWishlist();
   }, [getWishlistProducts]);
-
   return (
     <div className="wishlist-page">
       <div className="wishlist-header">
         <h1>My Electronics Wishlist</h1>
         {wishlistProducts.length > 0 && <WishlistShare />}
       </div>
-      
       {loading ? (
         <div className="loading-state">
           <div className="loading-spinner"></div>
@@ -45,5 +40,4 @@ const WishlistPage = () => {
     </div>
   );
 };
-
 export default WishlistPage; 
