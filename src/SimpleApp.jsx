@@ -24,7 +24,7 @@ function SimpleApp() {
               <div key={i} className="product-card">
                 <div className="product-image-container">
                   <img 
-                    src={`https:
+                    src={`https://via.placeholder.com/300x300?text=Product+${i+1}`} 
                     alt={`Product ${i+1}`} 
                     className="product-image"
                   />

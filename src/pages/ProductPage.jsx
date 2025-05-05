@@ -125,7 +125,7 @@ const ProductPage = () => {
             loading="eager"
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = 'https:
+              e.target.src = 'https://via.placeholder.com/600x600?text=Image+Not+Available';
             }}
           />
         </div>

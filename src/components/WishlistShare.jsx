@@ -8,24 +8,30 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { faLink, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { useShopContext } from '../context/ShopContext';
+
 const WishlistShare = () => {
   const { generateWishlistShareUrl } = useShopContext();
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
+  
   const shareUrl = generateWishlistShareUrl();
   const pageTitle = "Check out my wishlist!";
+  
   const copyToClipboard = () => {
     navigator.clipboard.writeText(shareUrl).then(() => {
       setShowCopiedMessage(true);
       setTimeout(() => setShowCopiedMessage(false), 2000);
     });
   };
-  const facebookShareUrl = `https:
-  const twitterShareUrl = `https:
-  const whatsappShareUrl = `https:
-  const pinterestShareUrl = `https:
+  
+  const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+  const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(pageTitle)}`;
+  const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(pageTitle + ' ' + shareUrl)}`;
+  const pinterestShareUrl = `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(shareUrl)}&description=${encodeURIComponent(pageTitle)}`;
+  
   return (
     <div className="wishlist-share">
       <h3>Share Your Wishlist</h3>
+      
       <div className="share-url-container">
         <input 
           type="text" 
@@ -45,6 +51,7 @@ const WishlistShare = () => {
           <span className="copy-text">{showCopiedMessage ? 'Copied!' : 'Copy'}</span>
         </button>
       </div>
+      
       <div className="social-share-buttons">
         <a 
           href={facebookShareUrl} 
@@ -86,4 +93,5 @@ const WishlistShare = () => {
     </div>
   );
 };
+
 export default WishlistShare; 
