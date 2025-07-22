@@ -26,7 +26,7 @@ body {
   padding: 0;
 }
 
-/* Authentication Styles */
+
 .auth-container {
   min-height: 100vh;
   display: flex;
@@ -74,7 +74,7 @@ body {
   box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
 }
 
-/* App Layout */
+
 .app {
   min-height: 100vh;
   background: #f8fafc;
@@ -136,7 +136,7 @@ body {
   color: white;
 }
 
-/* Main Content */
+
 .main {
   margin: 0;
   padding: 2rem;
@@ -145,7 +145,7 @@ body {
   box-sizing: border-box;
 }
 
-/* Filters */
+
 .filters {
   margin-bottom: 2rem;
 }
@@ -171,7 +171,7 @@ body {
   outline: none;
 }
 
-/* Products Grid */
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -242,7 +242,7 @@ body {
   transform: scale(1.2);
 }
 
-/* Heart animation */
+
 .wishlist-btn svg {
   transition: all 0.3s ease;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
@@ -307,7 +307,7 @@ body {
   white-space: nowrap;
 }
 
-/* Wishlist Section */
+
 .wishlist-section {
   min-height: 60vh;
 }
@@ -359,7 +359,7 @@ body {
   color: #333;
 }
 
-/* Category Sections */
+
 .category-section {
   min-height: 60vh;
 }
@@ -376,7 +376,7 @@ body {
   font-size: 1.1rem;
 }
 
-/* Recommendations Section */
+
 .recommendations-section h2 {
   font-size: 2rem;
   color: #333;
@@ -389,7 +389,7 @@ body {
   font-size: 1.1rem;
 }
 
-/* Loading */
+
 .loading {
   display: flex;
   flex-direction: column;
@@ -414,7 +414,7 @@ body {
   100% { transform: rotate(360deg); }
 }
 
-/* Responsive Design */
+
 @media (max-width: 1024px) {
   .main {
     padding: 1.5rem;
