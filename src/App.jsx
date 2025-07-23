@@ -6,7 +6,7 @@ import './App.css';
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Publishable Key");
+  console.error("Missing Clerk Publishable Key. Please set VITE_CLERK_PUBLISHABLE_KEY in your environment variables.");
 }
 
 function ShoppingApp() {
@@ -494,6 +494,29 @@ function ShoppingApp() {
 }
 
 function App() {
+  // If no Clerk key is provided, show a fallback UI
+  if (!PUBLISHABLE_KEY) {
+    return (
+      <div className="auth-container">
+        <div className="auth-card">
+          <h1>🛍️ ShopWish</h1>
+          <p>Configuration Error: Missing Clerk Publishable Key</p>
+          <p>Please set VITE_CLERK_PUBLISHABLE_KEY in your environment variables.</p>
+          <div style={{ marginTop: '20px', padding: '15px', backgroundColor: '#f8f9fa', borderRadius: '8px', fontSize: '14px' }}>
+            <strong>For Vercel deployment:</strong>
+            <ol style={{ textAlign: 'left', marginTop: '10px' }}>
+              <li>Go to your Vercel dashboard</li>
+              <li>Select your project</li>
+              <li>Go to Settings → Environment Variables</li>
+              <li>Add VITE_CLERK_PUBLISHABLE_KEY with your Clerk key</li>
+              <li>Redeploy your application</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
       <SignedOut>
